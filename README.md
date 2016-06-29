@@ -1,2 +1,2 @@
 # nwatch
-Network monitoring with Elasticsearch and Python
+Network monitoring with Elasticsearch, nmap and Python
