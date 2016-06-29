@@ -47,9 +47,14 @@ while True:
             host_data['timestamp'] = datetime.now().isoformat()
 
             raw_data = line.split()
+            if len(raw_data) == 5:
+                host_data['ip'] = raw_data[4]
+            elif len(raw_data) == 6:
+                host_data['name'] = raw_data[4]
+                host_data['ip'] = raw_data[5].replace('(', '').replace(')', '')
+            else:
+                continue
 
-            host_data['name'] = raw_data[4]
-            host_data['ip'] = raw_data[5][1:-1]
             for i in range(3):
                 next(res_iter)
 
