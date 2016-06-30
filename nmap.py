@@ -55,17 +55,28 @@ while True:
             else:
                 continue
 
-            for i in range(3):
-                next(res_iter)
-
-            line = next(res_iter)
-            while line != '':
-                raw_data = line.split()
-                if raw_data[1] == 'open':
-                    port = re.match('\d+', raw_data[0]).group(0)
-                    host_data['open_ports'].append(int(port))
-
+            while line.strip():
                 line = next(res_iter)
+                # Match port list header
+                if re.match('PORT\s+STATE', line):
+                    # Look up each open port
+                    while True:
+                        line = next(res_iter)
+                        port_match = re.match('(\d+)/(\w+)\s+(?:(open)|)', line)
+                        if port_match is not None:
+                            # Only parse open ports
+                            if port_match.group(3) is not None:
+                                port = int(port_match.group(1))
+                                host_data['open_ports'].append(port)
+                        else:
+                            break
+                # Match MAC address
+                mac_match = re.match(r'MAC\sAddress:\s((?:\w\w:){5}\w\w)(\s\((?:\w|\s)+\))?', line)
+                if mac_match is not None:
+                    host_data['mac'] = mac_match.group(1)
+                    if mac_match.group(2) is not None and mac_match.group(2) != '(Unknown)':
+                        host_data['mac_provider'] = mac_match.group(2).replace('(', '').replace(')', '')
+
             hosts.append(host_data)
     except StopIteration:
         break
