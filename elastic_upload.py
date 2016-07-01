@@ -19,10 +19,6 @@ parser.add_argument('--index',
                     type=str,
                     help='Index that data is uploaded to',
                     required=True)
-parser.add_argument('--type',
-                    type=str,
-                    help='Type assigned to every object uploaded',
-                    required=True)
 args = parser.parse_args()
 
 elastic = Elasticsearch(['{}:{}'.format(args.address, args.port)])
@@ -34,7 +30,7 @@ for entry in upload_data:
     bulk_body += '{"create": {}}\n'
     bulk_body += json.dumps(entry) + '\n'
 
-response = elastic.bulk(bulk_body, args.index, args.type)
+response = elastic.bulk(bulk_body, args.index, 'entry')
 
 errors = response.items()[1][1]
 if errors:

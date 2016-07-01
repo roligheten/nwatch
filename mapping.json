@@ -1,0 +1,28 @@
+{
+    "mappings": {
+        "entry": {
+            "properties": {
+                "ip": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "mac": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "mac_provider": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "name": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "ip": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                }
+            }
+        }
+    }
+}
